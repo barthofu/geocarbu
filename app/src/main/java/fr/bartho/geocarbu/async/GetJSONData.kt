@@ -19,7 +19,7 @@ class GetJSONData : AsyncTask<URL?, Any, String>() {
             text = input.readLine()
             input.close()
         }
-        urlConnection.disconnect();
+        urlConnection.disconnect()
 
         return text
     }
