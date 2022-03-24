@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import fr.bartho.geocarbu.R
+import fr.bartho.geocarbu.utils.APIProxy
 
 class StationsMap : Fragment() {
 
@@ -42,6 +43,7 @@ class StationsMap : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }

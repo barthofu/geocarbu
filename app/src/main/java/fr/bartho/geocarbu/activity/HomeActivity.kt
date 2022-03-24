@@ -35,10 +35,4 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    fun loadData(){
-
-    GetJSONData()
-
-    }
-
 }

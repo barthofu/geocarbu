@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import fr.bartho.geocarbu.databinding.ActivityMainBinding
 import fr.bartho.geocarbu.async.GetJSONData
+import fr.bartho.geocarbu.utils.APIProxy
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+        var api = APIProxy()
+
+
     }
 
 

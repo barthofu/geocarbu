@@ -1,14 +1,21 @@
 package fr.bartho.geocarbu.async
 
 import android.os.AsyncTask
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
+
 class GetJSONData : AsyncTask<URL?, Any, String>() {
 
-    override fun doInBackground(vararg urls: URL?): String {
+    public override fun doInBackground(vararg urls: URL?): String {
+
+        val policy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+
 
         val url: URL? = urls[0]
         val urlConnection = url?.openConnection() as HttpURLConnection
@@ -24,7 +31,7 @@ class GetJSONData : AsyncTask<URL?, Any, String>() {
         return text
     }
 
-    override fun onPostExecute(result: String) {
+    public override fun onPostExecute(result: String) {
         println(result)
     }
 
