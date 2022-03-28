@@ -3,8 +3,8 @@ package fr.bartho.geocarbu.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import fr.bartho.geocarbu.databinding.ActivityMainBinding
-import fr.bartho.geocarbu.async.GetJSONData
-import fr.bartho.geocarbu.utils.APIProxy
+import fr.bartho.geocarbu.utils.HTTPRequest
+import fr.bartho.geocarbu.utils.StationsManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,15 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        var api = APIProxy()
-
-
-    }
-
-
-    fun ladData(){
-
-    GetJSONData()
 
     }
 

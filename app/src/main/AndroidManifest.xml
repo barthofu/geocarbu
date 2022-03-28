@@ -11,7 +11,7 @@
         android:theme="@style/Theme.GeoCarbu"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:exported="true">
 
             <intent-filter>

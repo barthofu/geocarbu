@@ -1,10 +1,10 @@
-package fr.bartho.geocarbu
+package fr.bartho.geocarbu.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import fr.bartho.geocarbu.activity.HomeActivity
+import fr.bartho.geocarbu.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
 
             finish()
 
-        }, 6000)
+        }, 1000)
 
     }
 

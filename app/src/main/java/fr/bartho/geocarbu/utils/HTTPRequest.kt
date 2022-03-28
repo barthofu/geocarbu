@@ -1,4 +1,4 @@
-package fr.bartho.geocarbu.async
+package fr.bartho.geocarbu.utils
 
 import android.os.AsyncTask
 import android.os.StrictMode
@@ -9,13 +9,12 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class GetJSONData : AsyncTask<URL?, Any, String>() {
+class HTTPRequest : AsyncTask<URL?, Any, String>() {
 
     public override fun doInBackground(vararg urls: URL?): String {
 
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
-
 
         val url: URL? = urls[0]
         val urlConnection = url?.openConnection() as HttpURLConnection

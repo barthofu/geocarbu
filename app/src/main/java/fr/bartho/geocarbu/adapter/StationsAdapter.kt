@@ -7,26 +7,42 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentActivity
 import fr.bartho.geocarbu.R
+import fr.bartho.geocarbu.data.Station
+import fr.bartho.geocarbu.fragment.StationsList
 
-class StationsAdapter(private var context: Context) : BaseAdapter() {
+class StationsAdapter : BaseAdapter {
 
-    override fun getCount(): Int {
-        return 10
+    private var context: FragmentActivity? = null
+    private var list: ArrayList<Station>
+
+    constructor(context: FragmentActivity?, list: ArrayList<Station>) {
+        this.context = context
+        this.list = list
     }
 
-    override fun getItem(i: Int): Any {
-        return i
+    override fun getCount(): Int {
+        return list.size
+    }
+
+    override fun getItem(i: Int): Station {
+        println("getItem")
+        return list[i]
     }
 
     override fun getItemId(i: Int): Long {
+        println("getItemId")
         return i.toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
+        println("getView")
+
         lateinit var layoutItem: ConstraintLayout
         val mInflater: LayoutInflater = LayoutInflater.from(context)
+        val station: Station = list[position]
 
         layoutItem =
             if (convertView == null) mInflater.inflate(R.layout.item_layout, parent, false) as ConstraintLayout
@@ -34,7 +50,7 @@ class StationsAdapter(private var context: Context) : BaseAdapter() {
 
         val textView: TextView = layoutItem.findViewById(R.id.textView)
 
-        textView.text = "Station n°${position}"
+        textView.text = station.fields?.name
 
         return layoutItem
     }
