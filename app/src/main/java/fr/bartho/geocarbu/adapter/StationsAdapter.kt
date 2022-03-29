@@ -1,6 +1,5 @@
 package fr.bartho.geocarbu.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentActivity
 import fr.bartho.geocarbu.R
 import fr.bartho.geocarbu.data.Station
-import fr.bartho.geocarbu.fragment.StationsList
 
 class StationsAdapter : BaseAdapter {
 
@@ -48,9 +46,11 @@ class StationsAdapter : BaseAdapter {
             if (convertView == null) mInflater.inflate(R.layout.item_layout, parent, false) as ConstraintLayout
             else convertView as ConstraintLayout
 
-        val textView: TextView = layoutItem.findViewById(R.id.textView)
+        val name: TextView = layoutItem.findViewById(R.id.name)
+        val address: TextView = layoutItem.findViewById(R.id.address)
 
-        textView.text = station.fields?.name
+        name.text = station.fields?.name
+        address.text = station.fields?.address
 
         return layoutItem
     }

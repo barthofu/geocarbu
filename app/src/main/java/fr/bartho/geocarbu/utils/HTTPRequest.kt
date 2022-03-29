@@ -16,18 +16,24 @@ class HTTPRequest : AsyncTask<URL?, Any, String>() {
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        val url: URL? = urls[0]
-        val urlConnection = url?.openConnection() as HttpURLConnection
-        lateinit var text: String
+        try {
+            val url: URL? = urls[0]
+            val urlConnection = url?.openConnection() as HttpURLConnection
+            var text: String = ""
 
-        if (urlConnection.responseCode == HttpURLConnection.HTTP_OK) {
-            val input = BufferedReader(InputStreamReader(urlConnection.inputStream))
-            text = input.readLine()
-            input.close()
+            if (urlConnection.responseCode == HttpURLConnection.HTTP_OK) {
+                val input = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                text = input.readLine()
+                input.close()
+            }
+            urlConnection.disconnect()
+
+            return text
+        } catch (e: Exception) {
+            // create empty array list
+            return ""
         }
-        urlConnection.disconnect()
 
-        return text
     }
 
     public override fun onPostExecute(result: String) {

@@ -12,28 +12,34 @@ object StationsManager {
 
     private const val url: String = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=prix_des_carburants_j_7"
     private const val lang: String = "FR"
-    var q: String = ""
-    private const val rows: Int = 10
-    private var start: Int = 0
-    const val facet: String = "facet=cp&facet=pop&facet=city&facet=automate_24_24&facet=fuel&facet=shortage&facet=update&facet=services&facet=brand"
+    private const val rows: Int = 20
+    private const val facet: String = "facet=cp&facet=pop&facet=city&facet=automate_24_24&facet=fuel&facet=shortage&facet=update&facet=services&facet=brand"
+    private const val SAVE_FILENAME = "saveStations"
 
-    val SAVE_FILENAME = "saveStations"
+    private var q: String = ""
+    private var start: Int = 0
+    private var distance: Int = 20000 // en mètres
+    private var currentLocation: LocationData = LocationData(0.0, 0.0)
+
     var stations: ArrayList<Station> = ArrayList()
 
     private fun generateUrl(): String {
-
-        return "$url&lang=$lang&rows=$rows&start=$start&$facet"
+        return "$url&lang=$lang&rows=$rows&start=$start&geofilter.distance=${this.currentLocation.latitude},${this.currentLocation.longitude},${this.distance}&$facet"
     }
 
     fun loadFromAPI() {
 
         val data = HTTPRequest().doInBackground(URL(generateUrl()))
-        val gson = Gson()
-        val obj = gson.fromJson(data, ResponseItem::class.java)
 
-        for (record in obj.records) {
-            val station = Station(record.datasetid, record.recordid, record.fields, record.geometry, record.recordTimestamp)
-            stations.add(station)
+        if (data.isNotEmpty()) {
+
+            val gson = Gson()
+            val obj = gson.fromJson(data, ResponseItem::class.java)
+
+            for (record in obj.records) {
+                val station = Station(record.datasetid, record.recordid, record.fields, record.geometry, record.recordTimestamp)
+                stations.add(station)
+            }
         }
     }
 
@@ -76,25 +82,41 @@ object StationsManager {
     }
 
     fun next() {
-        start += rows
-        val gson = Gson()
-        val data = HTTPRequest().doInBackground(URL(generateUrl()))
-        val obj = gson.fromJson(data, ResponseItem::class.java)
 
-        for (record in obj.records) {
-            val station = Station(
-                record.datasetid,
-                record.recordid,
-                record.fields,
-                record.geometry,
-                record.recordTimestamp
-            )
-            this.stations.add(station)
+        this.start += this.rows
+
+        val data = HTTPRequest().doInBackground(URL(generateUrl()))
+
+        if (data.isNotEmpty()) {
+
+            val gson = Gson()
+            val obj = gson.fromJson(data, ResponseItem::class.java)
+
+            for (record in obj.records) {
+                val station = Station(
+                    record.datasetid,
+                    record.recordid,
+                    record.fields,
+                    record.geometry,
+                    record.recordTimestamp
+                )
+                this.stations.add(station)
+            }
         }
     }
 
-    fun query(query: String) {
+    fun setQuery(query: String) {
         q = query
+    }
+
+    fun setDistance(distance: Int) {
+        this.distance = distance
+    }
+
+    fun setCurrentLocation(location: LocationData?) {
+        if (location != null) {
+            this.currentLocation = location
+        }
     }
 
     data class ResponseItem(

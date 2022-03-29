@@ -1,5 +1,6 @@
 package fr.bartho.geocarbu.fragment
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -10,9 +11,15 @@ import android.view.ViewGroup
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import fr.bartho.geocarbu.R
+import fr.bartho.geocarbu.activity.DetailsActivity
+import fr.bartho.geocarbu.utils.Location
+import fr.bartho.geocarbu.utils.StationsManager
+
+data class LocationData(var latitude: Double, var longitude: Double)
 
 class StationsMap : Fragment() {
 
@@ -26,9 +33,29 @@ class StationsMap : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val location = LatLng(Location.currentLocation!!.latitude, Location.currentLocation!!.longitude)
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(location)
+                .title("Votre position"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 11.0f))
+
+        for (station in StationsManager.stations) {
+            if (station.fields?.geoPoint?.size == 2) {
+                val location = LatLng(station.fields!!.geoPoint[0], station.fields!!.geoPoint[1])
+                googleMap.addMarker(MarkerOptions().position(location).title(station.fields!!.name))
+            }
+        }
+
+        googleMap.setOnMarkerClickListener { marker ->
+            val station = StationsManager.stations.find { it.fields?.name == marker.title }
+            if (station != null) {
+                val intent = Intent(activity, DetailsActivity::class.java)
+                intent.putExtra("station", station)
+                startActivity(intent)
+            }
+            true
+        }
     }
 
     override fun onCreateView(

@@ -1,6 +1,7 @@
 package fr.bartho.geocarbu.data
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Fields(
 
@@ -18,13 +19,18 @@ data class Fields(
     @SerializedName("fuel") var fuel: String? = null,
     @SerializedName("address") var address: String? = null,
     @SerializedName("update") var update: String? = null,
-    @SerializedName("price_gazole") var priceGazole: Double? = null
-)
+    @SerializedName("price_gazole") var price_gazole: Double? = null,
+    @SerializedName("price_e10") var price_e10: Double? = null,
+    @SerializedName("price_gplc") var price_gplc: Double? = null,
+    @SerializedName("price_sp98") var price_sp98: Double? = null,
+    @SerializedName("price_sp95") var price_sp95: Double? = null
+
+) : Serializable
 
 data class Geometry(
     @SerializedName("type") var type: String? = null,
     @SerializedName("coordinates") var coordinates: ArrayList<Double> = arrayListOf()
-)
+) : Serializable
 
 data class Station(
 
@@ -33,4 +39,4 @@ data class Station(
     @SerializedName("fields") var fields: Fields? = Fields(),
     @SerializedName("geometry") var geometry: Geometry? = Geometry(),
     @SerializedName("record_timestamp") var recordTimestamp: String? = null
-)
+) : Serializable

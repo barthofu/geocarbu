@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
 
             finish()
 
-        }, 1000)
+        }, 4500)
 
     }
 
